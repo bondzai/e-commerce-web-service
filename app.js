@@ -17,6 +17,9 @@ app.use(morgan('tiny'));
 
 
 const home = require('./route/home');
+const user = require('./route/user');
+
 app.use('/api/v1', home);
+app.use('/api/v1', user);
 
 module.exports = app;
