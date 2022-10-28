@@ -29,3 +29,23 @@ exports.signup = BigPromise(async (req, res, next) => {
     })
     cookieToken(user, res);
 });
+
+exports.login = BigPromise(async (req, res, next) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return next(new CustomError("please provide email and password", 400));
+    }
+    const user = await User.findOne({ email }).select("+password");
+    if (!user) {
+      return next(
+        new CustomError("Email or password does not match or exist", 400)
+      );
+    }
+    const isPasswordCorrect = await user.checkValidatedPassword(password);
+    if (!isPasswordCorrect) {
+      return next(
+        new CustomError("Email or password does not match or exist", 400)
+      );
+    }
+    cookieToken(user, res);
+  });
