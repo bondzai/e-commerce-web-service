@@ -33,19 +33,30 @@ exports.signup = BigPromise(async (req, res, next) => {
 exports.login = BigPromise(async (req, res, next) => {
     const { email, password } = req.body;
     if (!email || !password) {
-      return next(new CustomError("please provide email and password", 400));
+        return next(new CustomError("please provide email and password", 400));
     }
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
-      return next(
-        new CustomError("Email or password does not match or exist", 400)
-      );
+        return next(
+            new CustomError("Email or password does not match or exist", 400)
+        );
     }
     const isPasswordCorrect = await user.checkValidatedPassword(password);
     if (!isPasswordCorrect) {
-      return next(
-        new CustomError("Email or password does not match or exist", 400)
-      );
+        return next(
+            new CustomError("Email or password does not match or exist", 400)
+        );
     }
     cookieToken(user, res);
-  });
+});
+
+exports.logout = BigPromise(async (req, res, next) => {
+res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+});
+res.status(200).json({
+    succes: true,
+    message: "Logout success",
+});
+});
