@@ -15,3 +15,13 @@ exports.isLoggedIn = BigPromise(async (req, res, next) => {
     req.user = await User.findById(decoded.id);
     next();
 });
+
+exports.customRole = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return next(new CustomError("You are not allowed for this resouce", 403));
+        }
+        console.log(req.user.role);
+        next();
+    };
+};
