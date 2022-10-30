@@ -20,7 +20,8 @@ servers:
         enum:
           - localhost:4000
           - introbond-ecommerce.cyclic.app
-        default: introbond-ecommerce.cyclic.app
+          - introbond-ecommerce.onrender.com
+        default: introbond-ecommerce.onrender.com
       protocol:
         enum:
           - http
