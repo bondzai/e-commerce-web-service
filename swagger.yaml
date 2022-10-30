@@ -385,3 +385,42 @@ paths:
           description: Bad request
         500:
           description: internal server error
+
+  /userdashboard/update:
+    post:
+      tags:
+        - User
+      summary: User can update the name, emails and photo. Photo is optional
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                photo:
+                  in: formData
+                  description: The uploaded file data
+                  type: file
+                  format: binary
+      responses:
+        200:
+          description: All good success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean  
+        400:
+          description: Bad request
+        500:
+          description: internal server error
+
