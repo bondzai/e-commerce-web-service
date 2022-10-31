@@ -1,6 +1,7 @@
 const app = require('./app');
 const connectDatabase = require('./config/database');
 const cloudinary = require("cloudinary").v2;
+const PORT = process.env.PORT || 3000;
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
@@ -9,6 +10,6 @@ cloudinary.config({
 });
 connectDatabase();
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server is running at port: ${process.env.PORT}`)
+app.listen(PORT, () => {
+    console.log(`Server is running at port: ${PORT}`)
 })
